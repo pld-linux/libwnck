@@ -1,19 +1,19 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
-Version:	2.4.0.1
+Version:	2.6.0
 Release:	1
 License:	LGPL
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/2.4/%{name}-%{version}.tar.bz2
-# Source0-md5:	7a7007b285a4e3c39a7bb113cb2be45b
-Patch0:		%{name}-am15.patch
+Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/2.6/%{name}-%{version}.tar.bz2
+# Source0-md5:	d91e6e4bb55750df02edfd63ca056e72
+Patch0:		%{name}-locale-names.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gtk+2-devel >= 2.2.0
+BuildRequires:	gtk+2-devel >= 2:2.4.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
-BuildRequires:	startup-notification-devel >= 0.4
+BuildRequires:	startup-notification-devel >= 0.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -28,9 +28,9 @@ czê¶ci± platformy GNOME 2.
 Summary:	Header files and documentation for libwnck
 Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{version}
-Requires:	gtk+2-devel >= 2.2.0
-Requires:	startup-notification-devel >= 0.4
+Requires:	%{name} = %{version}-%{release}
+Requires:	gtk+2-devel >= 2:2.4.0
+Requires:	startup-notification-devel >= 0.5
 
 %description devel
 Header, docs and development libraries for libwnck.
@@ -42,7 +42,7 @@ Pliki nag³ówkowe i dokumentacja do libwnck.
 Summary:	Static libwnck libraries
 Summary(pl):	Statyczne biblioteki libwnck
 Group:		X11/Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static version of libwnck libraries.
@@ -54,13 +54,14 @@ Statyczna wersja bibliotek libwnck.
 %setup -q
 %patch0 -p1
 
+mv po/{no,nb}.po
+
 %build
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure
-
 %{__make}
 
 %install
