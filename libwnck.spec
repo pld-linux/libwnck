@@ -1,5 +1,5 @@
-Summary:	General Window Manager interfacing for gnome utilities
-Summary(pl):	Interfejs General Window Manager dla narzêdzi gnome
+Summary:	General Window Manager interfacing for GNOME utilities
+Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
 Version:	2.3.1
 Release:	1
@@ -15,8 +15,8 @@ BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-General Window Manager interfacing for gnome utilities. This library
-is a part of the gnome 2 platform.
+General Window Manager interfacing for GNOME utilities. This library
+is a part of the GNOME 2 platform.
 
 %description -l pl
 Ogólny interfejs zarz±dcy okien dla narzêdzi GNOME. Ta biblioteka jest
