@@ -1,19 +1,19 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
-Version:	2.7.91
+Version:	2.7.92
 Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/2.7/%{name}-%{version}.tar.bz2
-# Source0-md5:	8587a9f99765630cf7dc05c61e9f9deb
-Patch0:		%{name}-locale-names.patch
+# Source0-md5:	24b591d76ffc45375e4e9d3c7154cd79
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+2-devel >= 2:2.4.4
+BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
-BuildRequires:	startup-notification-devel >= 0.6
+BuildRequires:	startup-notification-devel >= 0.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -30,7 +30,7 @@ Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.4.4
-Requires:	startup-notification-devel >= 0.6
+Requires:	startup-notification-devel >= 0.7
 
 %description devel
 Header, docs and development libraries for libwnck.
@@ -52,16 +52,16 @@ Statyczna wersja bibliotek libwnck.
 
 %prep
 %setup -q
-%patch0 -p1
-
-mv po/{no,nb}.po
 
 %build
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
 %{__automake}
-%configure
+%configure \
+	--enable-gtk-doc \
+	--with-html-dir=%{_gtkdocdir}
+
 %{__make}
 
 %install
@@ -69,6 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+rm -r $RPM_BUILD_ROOT%{_datadir}/locale/no
 
 %find_lang %{name}
 
@@ -89,6 +91,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.la
 %{_includedir}/%{name}-1.0
 %{_pkgconfigdir}/*.pc
+%{_gtkdocdir}/%{name}
 
 %files static
 %defattr(644,root,root,755)
