@@ -1,7 +1,7 @@
 Summary:	General Window Manager interfacing for gnome utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi gnome
 Name:		libwnck
-Version:	0.12
+Version:	0.13
 Release:	1
 License:	LGPL
 Group:		X11/Libraries
@@ -58,8 +58,7 @@ libtoolize --copy --force
 aclocal
 %{__autoconf}
 %{__automake}
-%configure \
-	--enable-gtk-doc=no
+%configure 
 
 %{__make}
 
@@ -67,7 +66,7 @@ aclocal
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	pkgconfigdir=%{_pkgconfigdir}
+	pkgconfigdir=%{_pkgconfigdir} 
 
 %find_lang %{name}
 
