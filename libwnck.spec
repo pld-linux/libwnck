@@ -1,6 +1,6 @@
-Name:		libwnck
 Summary:	General Window Manager interfacing for gnome utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi gnome
+Name:		libwnck
 Version:	0.7
 Release:	1
 License:	LGPL
@@ -16,6 +16,10 @@ BuildRequires:	gtk+2-devel
 General Window Manager interfacing for gnome utilities. This library
 is a part of the gnome 2 platform.
 
+%description -l pl
+Ogólny interfejs zarz±dcy okien dla narzêdzi GNOME. Ta biblioteka jest
+czê¶ci± platformy GNOME 2.
+
 %package devel
 Summary:	Header files and documentation for libwnck
 Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
@@ -24,6 +28,9 @@ Requires:	%{name} = %{version}
 
 %description devel
 Header, docs and development libraries for libwnck.
+
+%description devel -l pl
+Pliki nag³ówkowe i dokumentacja do libwnck.
 
 %package static
 Summary:	Static libwnck libraries
@@ -59,8 +66,8 @@ gzip -9nf AUTHORS ChangeLog NEWS README
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files -f %name.lang
 %defattr(644,root,root,755)
