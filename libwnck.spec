@@ -12,6 +12,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+2-devel >= 2.2.0
 BuildRequires:	libtool
+BuildRequires:	pkgconfig
+BuildRequires:	startup-notification-devel >= 0.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -27,6 +29,8 @@ Summary:	Header files and documentation for libwnck
 Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}
+Requires:	gtk+2-devel >= 2.2.0
+Requires:	startup-notification-devel >= 0.4
 
 %description devel
 Header, docs and development libraries for libwnck.
@@ -51,7 +55,6 @@ Statyczna wersja bibliotek libwnck.
 %patch0 -p1
 
 %build
-rm -f missing
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
@@ -62,6 +65,7 @@ rm -f missing
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -80,9 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/%{name}-1.0
-%{_libdir}/*.so
+%attr(755,root,root) %{_libdir}/*.so
 %{_libdir}/*.la
+%{_includedir}/%{name}-1.0
 %{_pkgconfigdir}/*.pc
 
 %files static
