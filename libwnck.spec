@@ -5,7 +5,7 @@ Version:	0.17
 Release:	1
 License:	LGPL
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/2.0.1/sources/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.17/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-am15.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -55,7 +55,7 @@ Statyczna wersja bibliotek libwnck.
 %build
 rm -f missing
 %{__libtoolize}
-aclocal
+%{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure 
