@@ -1,0 +1,11 @@
+--- libwnck-0.9/libwnck/Makefile.am~	Thu May  2 21:25:08 2002
++++ libwnck-0.9/libwnck/Makefile.am	Thu May  2 21:25:08 2002
+@@ -88,7 +88,7 @@
+ VARIABLES=default_icon_data $(srcdir)/default_icon.png
+ 
+ noinst_DATA = inlinepixbufs.h
+-CLEANFILES += $(noinst_DATA)
++CLEANFILES = $(noinst_DATA)
+ 
+ inlinepixbufs.h: $(IMAGES)
+ 	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$(srcdir)/inlinepixbufs.h
