@@ -5,11 +5,11 @@ Version:	0.18
 Release:	1
 License:	LGPL
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.17/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/0.18/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-am15.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gtk+2-devel >= 2.0.6
+BuildRequires:	gtk+2-devel
 BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -29,6 +29,7 @@ Summary:	Header files and documentation for libwnck
 Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}
+Requires:	gtk+2-devel
 
 %description devel
 Header, docs and development libraries for libwnck.
@@ -84,8 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/%{name}-1.0
-%{_libdir}/*.so
-%attr(755,root,root) %{_libdir}/*.la
+%attr(755,root,root) %{_libdir}/*.so
+%{_libdir}/*.la
 %{_pkgconfigdir}/*.pc
 
 %files static
