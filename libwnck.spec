@@ -56,8 +56,8 @@ Statyczna wersja bibliotek libwnck.
 rm -f missing
 libtoolize --copy --force
 aclocal
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 %configure \
 	--enable-gtk-doc=no
 
