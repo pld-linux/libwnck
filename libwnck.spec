@@ -6,6 +6,7 @@ Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/2.3/%{name}-%{version}.tar.bz2
+# Source0-md5: 9c3e08fac24a9bea3c762ec0d9b1650a
 Patch0:		%{name}-am15.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
