@@ -28,7 +28,7 @@ czê¶ci± platformy GNOME 2.
 Summary:	Header files and documentation for libwnck
 Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2.2.0
 Requires:	startup-notification-devel >= 0.4
 
@@ -42,7 +42,7 @@ Pliki nag³ówkowe i dokumentacja do libwnck.
 Summary:	Static libwnck libraries
 Summary(pl):	Statyczne biblioteki libwnck
 Group:		X11/Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static version of libwnck libraries.
@@ -57,9 +57,11 @@ Statyczna wersja bibliotek libwnck.
 mv po/{no,nb}.po
 
 %build
+%{__libtoolize}
+%{__aclocal}
 %{__autoconf}
+%{__automake}
 %configure
-
 %{__make}
 
 %install
