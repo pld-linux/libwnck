@@ -1,17 +1,15 @@
-%define		snap 20031208
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
-Version:	2.5.0
-Release:	0.%{snap}.1
+Version:	2.5.1
+Release:	1
 License:	LGPL
 Group:		Libraries
-#Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/2.4/%{name}-%{version}.tar.bz2
-Source0:	%{name}-%{version}.%{snap}.tar.bz2
-# Source0-md5:	37e26fae109ea952abc862e7fbff5a77
+Source0:	http://ftp.gnome.org/pub/gnome/sources/%{name}/2.5/%{name}-%{version}.tar.bz2
+# Source0-md5:	6fe607e9d5fab484c32f4c36ba770f64
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gtk+2-devel >= 2.2.0
+BuildRequires:	gtk+2-devel >= 2.3.1
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	startup-notification-devel >= 0.4
