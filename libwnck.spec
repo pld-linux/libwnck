@@ -1,12 +1,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
-Version:	2.11.92
+Version:	2.12.0
 Release:	1
 License:	LGPL
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.11/%{name}-%{version}.tar.bz2
-# Source0-md5:	a21bde983e63bd3f12b44484b39c13e6
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.12/%{name}-%{version}.tar.bz2
+# Source0-md5:	8548836b202264b7eec2b0baba3e6080
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+2-devel >= 2:2.8.0
