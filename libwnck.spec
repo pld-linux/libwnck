@@ -1,6 +1,7 @@
-
+#
+# Conditional build:
 %bcond_without	apidocs		# disable gtk-doc
-
+#
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
