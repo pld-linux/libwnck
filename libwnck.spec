@@ -1,3 +1,6 @@
+
+%bcond_without	apidocs		# disable gtk-doc
+
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
@@ -10,7 +13,8 @@ Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.12/%{name}-%{version}.
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+2-devel >= 2:2.8.0
-BuildRequires:	gtk-doc >= 1.0
+%{?with_apidocs:BuildRequires:	gtk-doc >= 1.0}
+BuildRequires:	gtk-doc-automake
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	startup-notification-devel >= 0.8
@@ -30,6 +34,7 @@ Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.8.0
+Requires:	gtk-doc-common
 Requires:	startup-notification-devel >= 0.8
 
 %description devel
@@ -59,7 +64,7 @@ Statyczna wersja bibliotek libwnck.
 %{__autoconf}
 %{__automake}
 %configure \
-	--enable-gtk-doc \
+	%{?with_apidocs:--enable-gtk-doc} \
 	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
