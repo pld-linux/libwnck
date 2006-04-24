@@ -1,0 +1,783 @@
+
+*** libwnck-2.14.0-window-move-1.patch ***
+
+diff -ur ../libwnck-2.14.0/libwnck/pager.c ./libwnck/pager.c
+--- ../libwnck-2.14.0/libwnck/pager.c	2006-03-06 19:58:22.000000000 +0100
++++ ./libwnck/pager.c	2006-03-16 16:49:19.000000000 +0100
+@@ -1262,12 +1262,45 @@
+ 
+ 	  if (space)
+             {
++	      gboolean new_on_workspace;
++ 	      int dx, dy;
++
++	      new_on_workspace =
++		!wnck_window_is_on_workspace (pager->priv->drag_window, space); 
++
+               if (wnck_window_get_workspace (pager->priv->drag_window) != space)
+                 pager->priv->action_window = pager->priv->drag_window;
+ 
+               wnck_window_move_to_workspace (pager->priv->drag_window,
+                                              space);
+-              if (space == wnck_screen_get_active_workspace (pager->priv->screen))
++
++	      dx = pager->priv->drag_window_x - pager->priv->drag_start_x;
++	      dy = pager->priv->drag_window_y - pager->priv->drag_start_y;
++
++	      if (dx || dy)
++		{
++		  double       width_ratio, height_ratio;
++		  int	       x, y;
++		  GdkRectangle rect;
++
++		  get_workspace_rect (pager, i, &rect);
++
++		  wnck_window_get_geometry (pager->priv->drag_window,
++					    &x, &y, NULL, NULL);
++
++		  width_ratio = (double) rect.width /
++		    wnck_workspace_get_width (space);
++		  height_ratio = (double) rect.height /
++		    wnck_workspace_get_height (space);
++
++		  x += dx / width_ratio;
++		  y += dy / height_ratio;
++
++		  wnck_window_move (pager->priv->drag_window, x, y);
++		}
++
++              if (new_on_workspace &&
++		  space == wnck_screen_get_active_workspace (pager->priv->screen))
+                 wnck_window_activate (pager->priv->drag_window, event->time);
+             }
+ 	}
+Only in ./libwnck: pager.c.orig
+Only in ./libwnck: pager.c.rej
+diff -ur ../libwnck-2.14.0/libwnck/window.c ./libwnck/window.c
+--- ../libwnck-2.14.0/libwnck/window.c	2006-02-11 09:29:51.000000000 +0100
++++ ./libwnck/window.c	2006-03-16 16:44:49.000000000 +0100
+@@ -1105,6 +1105,20 @@
+                        window->priv->xwindow);
+ }
+ 
++void
++wnck_window_move (WnckWindow *window, int x, int y)
++{
++  g_return_if_fail (WNCK_IS_WINDOW (window));
++
++  _wnck_move_resize (WNCK_SCREEN_XSCREEN (window->priv->screen),
++		     window->priv->xwindow,
++		     TRUE,
++		     FALSE,
++		     x, y,
++		     0, 0);
++}
++
++
+ /**
+  * wnck_window_get_workspace:
+  * @window: a #WnckWindow
+Only in ./libwnck: window.c.orig
+diff -ur ../libwnck-2.14.0/libwnck/window.h ./libwnck/window.h
+--- ../libwnck-2.14.0/libwnck/window.h	2006-01-21 20:52:50.000000000 +0100
++++ ./libwnck/window.h	2006-03-16 16:44:49.000000000 +0100
+@@ -193,6 +193,7 @@
+ void wnck_window_unstick                 (WnckWindow *window);
+ void wnck_window_keyboard_move           (WnckWindow *window);
+ void wnck_window_keyboard_size           (WnckWindow *window);
++void wnck_window_move                    (WnckWindow *window, int x, int y);
+ 
+ WnckWorkspace* wnck_window_get_workspace     (WnckWindow    *window);
+ void           wnck_window_move_to_workspace (WnckWindow    *window,
+Only in ./libwnck: window.h.orig
+diff -ur ../libwnck-2.14.0/libwnck/xutils.c ./libwnck/xutils.c
+--- ../libwnck-2.14.0/libwnck/xutils.c	2006-01-04 00:06:53.000000000 +0100
++++ ./libwnck/xutils.c	2006-03-16 16:44:49.000000000 +0100
+@@ -919,6 +919,38 @@
+ }
+ 
+ void
++_wnck_move_resize (Screen	*screen,
++		   Window	xwindow,
++		   gboolean	move,
++		   gboolean	resize,
++		   int		x,
++		   int		y,
++		   unsigned int width,
++		   unsigned int height)
++{
++  XEvent xev;
++  
++  xev.xclient.type = ClientMessage;
++  xev.xclient.serial = 0;
++  xev.xclient.send_event = True;
++  xev.xclient.display = gdk_display;
++  xev.xclient.window = xwindow;
++  xev.xclient.message_type = _wnck_atom_get ("_NET_MOVERESIZE_WINDOW");
++  xev.xclient.format = 32;
++  xev.xclient.data.l[0] = ((move) ? 3 << 7 : 0) | ((resize) ? 3 << 9 : 0);
++  xev.xclient.data.l[1] = x;
++  xev.xclient.data.l[2] = y;
++  xev.xclient.data.l[3] = width;
++  xev.xclient.data.l[4] = height;
++
++  XSendEvent (gdk_display,
++              RootWindowOfScreen (screen),
++              False,
++              SubstructureRedirectMask | SubstructureNotifyMask,
++              &xev); 
++}
++
++void
+ _wnck_change_state (Screen  *screen,
+ 		    Window   xwindow,
+                     gboolean add,
+diff -ur ../libwnck-2.14.0/libwnck/xutils.h ./libwnck/xutils.h
+--- ../libwnck-2.14.0/libwnck/xutils.h	2005-06-16 19:32:36.000000000 +0200
++++ ./libwnck/xutils.h	2006-03-16 16:44:49.000000000 +0100
+@@ -126,6 +126,15 @@
+ void   _wnck_keyboard_size    (Screen *screen,
+                                Window  xwindow);
+ 
++void _wnck_move_resize (Screen	     *screen,
++			Window	     xwindow,
++			gboolean     move,
++			gboolean     resize,
++			int	     x,
++			int	     y,
++			unsigned int width,
++			unsigned int height);
++
+ void _wnck_toggle_showing_desktop (Screen  *screen,
+                                    gboolean show);
+ 
+
+*** libwnck-above-1.patch ***
+
+Index: libwnck/window.c
+===================================================================
+RCS file: /cvs/gnome/libwnck/libwnck/window.c,v
+retrieving revision 1.64
+diff -u -r1.64 window.c
+--- libwnck/window.c	28 Mar 2006 21:49:20 -0000	1.64
++++ libwnck/window.c	6 Apr 2006 09:38:00 -0000
+@@ -2081,6 +2081,12 @@
+     window->priv->actions |=
+         WNCK_WINDOW_ACTION_MAXIMIZE   |
+         WNCK_WINDOW_ACTION_UNMAXIMIZE;
++
++  /* There's no _NET_WM_ACTION_ABOVE hint so always add it if
++     window manager claims to support_NET_WM_STATE_ABOVE */
++  if (wnck_screen_net_wm_supports (wnck_window_get_screen (window),
++				   "_NET_WM_STATE_ABOVE"))
++      window->priv->actions |= WNCK_WINDOW_ACTION_ABOVE;
+ }
+ 
+ static void
+
+*** libwnck-opacity-2.patch ***
+
+--- libwnck/window-action-menu.c	18 Feb 2006 16:29:29 -0000	1.20
++++ libwnck/window-action-menu.c	19 Apr 2006 17:02:49 -0000
+@@ -36,6 +36,7 @@
+   ABOVE,
+   MOVE,
+   RESIZE,
++  CHANGE_OPACITY,
+   PIN,
+   LEFT,
+   RIGHT,
+@@ -55,6 +56,7 @@
+   GtkWidget *above_item;
+   GtkWidget *move_item;
+   GtkWidget *resize_item;
++  GtkWidget *opacity_item;
+   GtkWidget *close_item;
+   GtkWidget *workspace_separator;
+   GtkWidget *pin_item;
+@@ -115,7 +117,7 @@
+ {
+   ActionMenuData *amd = get_data (G_OBJECT (menu_item));
+   WindowAction action = GPOINTER_TO_INT (data);
+-  
++
+   if (amd == NULL)
+     return;
+ 
+@@ -151,6 +153,15 @@
+     case RESIZE:
+       wnck_window_keyboard_size (amd->window);
+       break;
++    case CHANGE_OPACITY: {
++	int opacity_value;
++
++	opacity_value =
++	    GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item),
++						"opacity"));
++	
++	wnck_window_set_opacity (amd->window, opacity_value);
++    } break;
+     case PIN:
+       if (wnck_window_is_pinned (amd->window))
+         wnck_window_unpin (amd->window);
+@@ -578,6 +589,47 @@
+ 
+   set_item_text (amd->resize_item, _("_Resize"));
+   set_item_stock (amd->move_item, NULL);
++
++  if (wnck_screen_net_wm_supports (wnck_window_get_screen (amd->window),
++				   "_NET_WM_WINDOW_OPACITY"))
++  {
++      guint present_opacity;
++      gint  j;
++
++      amd->opacity_item = gtk_menu_item_new_with_mnemonic (_("_Opacity"));
++      gtk_widget_show (amd->opacity_item);
++
++      submenu = gtk_menu_new ();
++      gtk_menu_item_set_submenu (GTK_MENU_ITEM (amd->opacity_item),
++				 submenu);
++
++      gtk_menu_shell_append (GTK_MENU_SHELL (menu), amd->opacity_item);
++
++      present_opacity = wnck_window_get_opacity (window);
++      for (j = 0; j < 4; j++)
++      {
++	  GtkWidget *item;
++	  gchar	    *label;
++	  guint	    o;
++
++	  label = g_strdup_printf ("%d%%", (j + 1) * 25);
++
++	  item = make_menu_item (amd, CHANGE_OPACITY);
++
++	  o = (j + 1) * 25;
++	  g_object_set_data (G_OBJECT (item), "opacity", GINT_TO_POINTER (o));
++
++	  if (o == present_opacity)
++	      gtk_widget_set_sensitive (item, FALSE);
++
++	  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
++
++	  set_item_text (item, label);
++	  set_item_stock (item, NULL);
++
++	  g_free (label);
++      }
++  }
+ 
+   separator = gtk_separator_menu_item_new ();
+   gtk_widget_show (separator);
+--- libwnck/window.c	28 Mar 2006 21:49:20 -0000	1.64
++++ libwnck/window.c	19 Apr 2006 17:02:50 -0000
+@@ -88,6 +88,8 @@
+ 
+   char *res_class;
+   char *res_name;
++
++  guint32 opacity;
+   
+   /* true if transient_for points to root window,
+    * not another app window
+@@ -133,6 +135,7 @@
+   guint need_update_startup_id : 1;
+   guint need_update_wmclass : 1;
+   guint need_update_wmhints : 1;
++  guint need_update_opacity : 1;
+ };
+ 
+ enum {
+@@ -142,6 +145,7 @@
+   ICON_CHANGED,
+   ACTIONS_CHANGED,
+   GEOMETRY_CHANGED,
++  OPACITY_CHANGED,
+   LAST_SIGNAL
+ };
+ 
+@@ -170,6 +174,7 @@
+ static void update_transient_for (WnckWindow *window);
+ static void update_startup_id (WnckWindow *window);
+ static void update_wmclass    (WnckWindow *window);
++static void update_opacity   (WnckWindow *window);
+ static void unqueue_update   (WnckWindow *window);
+ static void queue_update     (WnckWindow *window);
+ static void force_update_now (WnckWindow *window);
+@@ -288,6 +293,15 @@
+                   NULL, NULL,
+                   g_cclosure_marshal_VOID__VOID,
+                   G_TYPE_NONE, 0);  
++
++  signals[OPACITY_CHANGED] =
++    g_signal_new ("opacity_changed",
++                  G_OBJECT_CLASS_TYPE (object_class),
++                  G_SIGNAL_RUN_LAST,
++                  G_STRUCT_OFFSET (WnckWindowClass, opacity_changed),
++                  NULL, NULL,
++                  g_cclosure_marshal_VOID__VOID,
++                  G_TYPE_NONE, 0);  
+ }
+ 
+ static void
+@@ -416,6 +430,7 @@
+   window->priv->need_update_startup_id = TRUE;
+   window->priv->need_update_wmclass = TRUE;
+   window->priv->need_update_wmhints = TRUE;
++  window->priv->need_update_opacity = TRUE;
+   force_update_now (window);
+ 
+   return window;
+@@ -1520,6 +1535,29 @@
+     *heightp = window->priv->height;
+ }
+ 
++guint
++wnck_window_get_opacity (WnckWindow *window)
++{
++  guint64 o;
++
++  g_return_val_if_fail (WNCK_IS_WINDOW (window), 0);
++
++  o = ((guint64) window->priv->opacity * 1005) / G_MAXUINT32;
++
++  return o / 10;
++}
++
++void
++wnck_window_set_opacity (WnckWindow *window,
++			 guint      opacity)
++{
++  g_return_if_fail (WNCK_IS_WINDOW (window));
++
++  _wnck_change_opacity (WNCK_SCREEN_XSCREEN (window->priv->screen),
++			wnck_window_get_xid (window),
++			(((guint64) opacity * G_MAXUINT32) / 100));
++}
++
+ /**
+  * wnck_window_is_visible_on_workspace:
+  * @window: a #WnckWindow
+@@ -1742,6 +1780,13 @@
+       window->priv->need_update_wmhints = TRUE;
+       queue_update (window);
+     }
++  else if (xevent->xproperty.atom ==
++           _wnck_atom_get ("_NET_WM_WINDOW_OPACITY"))
++    {
++      window->priv->need_update_opacity = TRUE;
++      queue_update (window);
++    }
++
+ }
+ 
+ void
+@@ -2249,6 +2294,17 @@
+ }
+ 
+ static void
++update_opacity (WnckWindow *window)
++{
++  if (!window->priv->need_update_opacity)
++    return;
++
++  window->priv->need_update_opacity = FALSE;
++
++  window->priv->opacity = _wnck_get_opacity (window->priv->xwindow);
++}
++
++static void
+ force_update_now (WnckWindow *window)
+ {
+   WnckWindowState old_state;
+@@ -2312,6 +2368,7 @@
+                               */
+   update_workspace (window); /* emits signals */
+   update_actions (window);
++  update_opacity (window);
+ 
+   get_icons (window);
+   
+--- libwnck/window.h	21 Jan 2006 19:52:50 -0000	1.36
++++ libwnck/window.h	19 Apr 2006 17:02:50 -0000
+@@ -127,6 +127,9 @@
+ 
+   /* Changed size/position */
+   void (* geometry_changed)      (WnckWindow       *window);
++
++  /* Changed opacity */
++  void (* opacity_changed)      (WnckWindow       *window);
+ };
+ 
+ GType wnck_window_get_type (void) G_GNUC_CONST;
+@@ -230,6 +233,9 @@
+                                int        *yp,
+                                int        *widthp,
+                                int        *heightp);
++
++guint wnck_window_get_opacity (WnckWindow *window);
++void  wnck_window_set_opacity (WnckWindow *window, guint opacity);
+ 
+ gboolean wnck_window_is_visible_on_workspace (WnckWindow    *window,
+                                               WnckWorkspace *workspace);
+--- libwnck/xutils.c	25 Mar 2006 08:59:28 -0000	1.55
++++ libwnck/xutils.c	19 Apr 2006 17:02:50 -0000
+@@ -1089,6 +1089,33 @@
+ 	      &xev);
+ }
+ 
++void
++_wnck_change_opacity (Screen  *screen,
++		      Window  xwindow,
++		      guint32 opacity)
++{
++  XEvent xev;
++
++  xev.xclient.type = ClientMessage;
++  xev.xclient.serial = 0;
++  xev.xclient.send_event = True;
++  xev.xclient.display = gdk_display;
++  xev.xclient.window = xwindow;
++  xev.xclient.message_type = _wnck_atom_get ("_NET_WM_WINDOW_OPACITY");
++  xev.xclient.format = 32;
++  xev.xclient.data.l[0] = opacity;
++  xev.xclient.data.l[1] = 0;
++  xev.xclient.data.l[2] = 0;
++  xev.xclient.data.l[3] = 0;
++  xev.xclient.data.l[4] = 0;
++
++  XSendEvent (gdk_display,
++	      RootWindowOfScreen (screen),
++	      False,
++	      SubstructureRedirectMask | SubstructureNotifyMask,
++	      &xev);
++}
++
+ char*
+ _wnck_get_session_id (Window xwindow)
+ {
+@@ -1207,6 +1234,19 @@
+       
+       XFree (ch.res_class);
+     }
++}
++
++guint32
++_wnck_get_opacity (Window xwindow)
++{
++  int val;
++
++  if (_wnck_get_cardinal (xwindow,
++			  _wnck_atom_get ("_NET_WM_WINDOW_OPACITY"),
++			  &val))
++      return val;
++
++  return G_MAXUINT32;
+ }
+ 
+ void
+--- libwnck/xutils.h	16 Jun 2005 17:32:36 -0000	1.26
++++ libwnck/xutils.h	19 Apr 2006 17:02:50 -0000
+@@ -108,6 +108,9 @@
+ void _wnck_change_viewport (Screen *screen,
+ 			    int     x,
+ 			    int     y);
++void _wnck_change_opacity (Screen  *screen,
++			   Window  xwindow,
++			   guint32 opacity);
+ 
+ char*  _wnck_get_session_id     (Window xwindow);
+ int    _wnck_get_pid            (Window xwindow);
+@@ -116,6 +119,9 @@
+ void   _wnck_get_wmclass        (Window xwindow,
+                                  char **res_class,
+                                  char **res_name);
++
++guint32 _wnck_get_opacity (Window xwindow);
++
+ 
+ void   _wnck_select_input     (Window xwindow,
+                                int    mask);
+
+*** libwnck-viewport-1.patch ***
+
+diff -ur ../libwnck/libwnck/window-action-menu.c ./libwnck/window-action-menu.c
+--- ../libwnck/libwnck/window-action-menu.c	2006-02-18 17:29:29.000000000 +0100
++++ ./libwnck/window-action-menu.c	2006-04-19 18:36:37.000000000 +0200
+@@ -41,7 +41,13 @@
+   RIGHT,
+   UP,
+   DOWN,
+-  MOVE_TO_WORKSPACE
++  MOVE_TO_WORKSPACE,
++  STICK,
++  VIEWPORT_LEFT,
++  VIEWPORT_RIGHT,
++  VIEWPORT_UP,
++  VIEWPORT_DOWN,
++  MOVE_TO_VIEWPORT
+ } WindowAction;
+ 
+ typedef struct _ActionMenuData ActionMenuData;
+@@ -63,6 +69,13 @@
+   GtkWidget *up_item;
+   GtkWidget *down_item;
+   GtkWidget *workspace_item;
++  GtkWidget *viewport_separator;
++  GtkWidget *stick_item;
++  GtkWidget *viewport_left_item;
++  GtkWidget *viewport_right_item;
++  GtkWidget *viewport_up_item;
++  GtkWidget *viewport_down_item;
++  GtkWidget *viewport_item;
+   guint idle_handler;
+ };
+ 
+@@ -204,6 +217,71 @@
+                                        workspace_index));
+         break;
+       }
++    case STICK:
++      if (wnck_window_is_sticky (amd->window))
++        wnck_window_unstick (amd->window);
++      else
++        wnck_window_stick (amd->window);
++      break;
++    case VIEWPORT_LEFT:
++      {
++	int width, xw, yw;
++
++	width = wnck_screen_get_width (wnck_window_get_screen (amd->window));
++	wnck_window_get_geometry (amd->window, &xw, &yw, NULL, NULL);
++	wnck_window_move (amd->window, xw - width, yw);
++        break;
++      }
++    case VIEWPORT_RIGHT:
++      {
++	int width, xw, yw;
++
++	width = wnck_screen_get_width (wnck_window_get_screen (amd->window));
++	wnck_window_get_geometry (amd->window, &xw, &yw, NULL, NULL);
++	wnck_window_move (amd->window, xw + width, yw);
++        break;
++      }
++    case VIEWPORT_UP:
++      {
++	int height, xw, yw;
++
++	height = wnck_screen_get_height (wnck_window_get_screen (amd->window));
++	wnck_window_get_geometry (amd->window, &xw, &yw, NULL, NULL);
++	wnck_window_move (amd->window, xw, yw - height);
++        break;
++      }
++    case VIEWPORT_DOWN:
++      {
++	int height, xw, yw;
++
++	height = wnck_screen_get_height (wnck_window_get_screen (amd->window));
++	wnck_window_get_geometry (amd->window, &xw, &yw, NULL, NULL);
++	wnck_window_move (amd->window, xw, yw + height);
++        break;
++      }
++    case MOVE_TO_VIEWPORT:
++      {
++        WnckWorkspace *workspace;
++	int viewport_x, viewport_y, xw, yw, x, y;
++
++        workspace = wnck_window_get_workspace (amd->window);
++	viewport_x = wnck_workspace_get_viewport_x (workspace);
++	viewport_y = wnck_workspace_get_viewport_y (workspace);
++
++        x = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "x"));
++        y = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "y"));
++
++	wnck_window_get_geometry (amd->window, &xw, &yw, NULL, NULL);
++
++	if (wnck_window_is_sticky (amd->window))
++	    wnck_window_unstick (amd->window);
++
++	wnck_window_move (amd->window,
++			  xw + x - viewport_x,
++			  yw + y - viewport_y);
++        break;
++      }
++
+     }
+ }
+ 
+@@ -355,6 +433,56 @@
+       gtk_widget_hide (amd->pin_item);
+       gtk_widget_hide (amd->workspace_item);
+     }
++
++  if (wnck_window_is_sticky (amd->window))
++    {
++      set_item_text (amd->stick_item, _("_Only in This Viewport"));
++      set_item_stock (amd->stick_item, NULL);
++      gtk_widget_set_sensitive (amd->stick_item,
++				(actions & WNCK_WINDOW_ACTION_STICK) != 0);
++    }
++  else
++    {
++      set_item_text (amd->stick_item, _("_Always in Visible Viewport"));
++      set_item_stock (amd->stick_item, NULL);
++      gtk_widget_set_sensitive (amd->stick_item,
++				(actions & WNCK_WINDOW_ACTION_STICK) != 0);
++    }
++
++  if (!wnck_window_is_sticky (amd->window))
++    {
++      if (amd->viewport_item)
++        gtk_widget_set_sensitive (amd->viewport_item,
++                                  (actions & WNCK_WINDOW_ACTION_MOVE) != 0);
++
++      if (amd->viewport_left_item)
++	gtk_widget_set_sensitive (amd->viewport_left_item,
++				  (actions & WNCK_WINDOW_ACTION_MOVE) != 0);
++
++      if (amd->viewport_right_item)
++	gtk_widget_set_sensitive (amd->viewport_right_item,
++				  (actions & WNCK_WINDOW_ACTION_MOVE) != 0);
++
++      if (amd->viewport_up_item)
++	gtk_widget_set_sensitive (amd->viewport_up_item,
++				  (actions & WNCK_WINDOW_ACTION_MOVE) != 0);
++
++      if (amd->viewport_down_item)
++	gtk_widget_set_sensitive (amd->viewport_down_item,
++				  (actions & WNCK_WINDOW_ACTION_MOVE) != 0);
++    }
++  if (wnck_workspace_is_virtual (wnck_screen_get_active_workspace (screen)))
++    {
++      gtk_widget_show (amd->viewport_separator);
++      gtk_widget_show (amd->stick_item);
++      gtk_widget_show (amd->viewport_item);
++    }
++  else
++    {
++      gtk_widget_hide (amd->viewport_separator);
++      gtk_widget_hide (amd->stick_item);
++      gtk_widget_hide (amd->viewport_item);
++    }
+   
+   return FALSE;
+ }
+@@ -531,6 +659,9 @@
+   int num_workspaces, present_workspace, i;
+   WnckWorkspace *workspace;
+   WnckWorkspaceLayout layout;
++  int viewport_x, viewport_y, viewport_width, viewport_height;
++  int screen_width, screen_height;
++  int x, y;
+ 
+   _wnck_stock_icons_init ();
+   
+@@ -695,6 +826,109 @@
+       g_free (name);
+       g_free (label);	
+     }
++
++  amd->viewport_separator = separator = gtk_separator_menu_item_new ();
++  gtk_widget_show (separator);
++  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
++                         separator);
++
++  amd->stick_item = make_menu_item (amd, STICK);
++  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
++                         amd->stick_item);
++  set_item_stock (amd->stick_item, NULL);
++
++  workspace = wnck_window_get_workspace (amd->window);
++
++  viewport_x = wnck_workspace_get_viewport_x (workspace);
++  viewport_y = wnck_workspace_get_viewport_y (workspace);
++  viewport_width = wnck_workspace_get_width (workspace);
++  viewport_height = wnck_workspace_get_height (workspace);
++
++  screen_width = wnck_screen_get_width (wnck_window_get_screen (amd->window));
++  screen_height = wnck_screen_get_height (wnck_window_get_screen (amd->window));
++
++  if (!wnck_window_is_sticky (amd->window))
++    {
++      if (viewport_x >= screen_width)
++        {
++          amd->viewport_left_item = make_menu_item (amd, VIEWPORT_LEFT);
++          gtk_menu_shell_append (GTK_MENU_SHELL (menu),
++                                 amd->viewport_left_item);
++          set_item_text (amd->viewport_left_item, _("Move to Viewport _Left"));
++          set_item_stock (amd->viewport_left_item, NULL);
++        }
++      else 
++         amd->viewport_left_item = NULL;
++
++      if (viewport_x <= viewport_width - 2 * screen_width)
++        {
++          amd->viewport_right_item = make_menu_item (amd, VIEWPORT_RIGHT);
++          gtk_menu_shell_append (GTK_MENU_SHELL (menu),
++                                 amd->viewport_right_item);
++          set_item_text (amd->viewport_right_item, _("Move to Viewport R_ight"));
++          set_item_stock (amd->viewport_right_item, NULL);
++        }
++      else 
++         amd->viewport_right_item = NULL;       
++       
++      if (viewport_y >= screen_height)
++        {
++          amd->viewport_up_item = make_menu_item (amd, VIEWPORT_UP);
++          gtk_menu_shell_append (GTK_MENU_SHELL (menu),
++                                 amd->viewport_up_item);
++          set_item_text (amd->viewport_up_item, _("Move to Viewport _Up"));
++          set_item_stock (amd->viewport_up_item, NULL);
++        }
++      else 
++         amd->viewport_up_item = NULL; 
++
++
++      if (viewport_y <= viewport_height - 2 * screen_height)
++        {
++          amd->viewport_down_item = make_menu_item (amd, VIEWPORT_DOWN);
++          gtk_menu_shell_append (GTK_MENU_SHELL (menu),
++                                 amd->viewport_down_item);
++          set_item_text (amd->viewport_down_item, _("Move to Viewport _Down"));
++          set_item_stock (amd->viewport_down_item, NULL);
++        }
++      else 
++         amd->viewport_down_item = NULL;  
++    }
++
++  amd->viewport_item = gtk_menu_item_new_with_mnemonic (_("Move to Another _Viewport")); 
++  gtk_widget_show (amd->viewport_item);
++
++  submenu = gtk_menu_new ();
++  gtk_menu_item_set_submenu (GTK_MENU_ITEM (amd->viewport_item), 
++                             submenu);
++
++  i = 1;
++  for (y = 0; y < viewport_height; y += screen_height)
++    {
++      char *label;
++      GtkWidget *item;
++
++      for (x = 0; x < viewport_width; x += screen_width)
++	{
++	  label = g_strdup_printf (_("Viewport _%d"), i++);
++
++	  item = make_menu_item (amd, MOVE_TO_VIEWPORT);
++	  g_object_set_data (G_OBJECT (item), "x", GINT_TO_POINTER (x));
++	  g_object_set_data (G_OBJECT (item), "y", GINT_TO_POINTER (y));
++
++	  if (x == viewport_x && y == viewport_y)
++	    gtk_widget_set_sensitive (item, FALSE);
++
++	  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
++	  set_item_text (item, label);
++	  set_item_stock (item, NULL);
++
++	  g_free (label);
++	}
++    }
++
++  gtk_menu_shell_append (GTK_MENU_SHELL (menu),
++                         amd->viewport_item);
+ 		 
+   g_signal_connect_object (G_OBJECT (amd->window), 
+                            "state_changed",
