@@ -5,23 +5,23 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
-Version:	2.15.4
+Version:	2.15.90
 Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.15/%{name}-%{version}.tar.bz2
-# Source0-md5:	f9f586cb28758b7356ee27e6bd25d1f4
+# Source0-md5:	04b124fd057b73414a5f9b8904f1a68b
 Patch0:		%{name}-compiz.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gtk+2-devel >= 2:2.10.0
+BuildRequires:	gtk+2-devel >= 2:2.10.1
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.6}
 BuildRequires:	gtk-doc-automake
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	startup-notification-devel >= 0.8
-Requires:	gtk+2 >= 2:2.10.0
+Requires:	gtk+2 >= 2:2.10.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -37,7 +37,7 @@ Summary:	Header files and documentation for libwnck
 Summary(pl):	Pliki nag³ówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.10.0
+Requires:	gtk+2-devel >= 2:2.10.1
 Requires:	gtk-doc-common
 Requires:	startup-notification-devel >= 0.8
 
@@ -70,7 +70,6 @@ Statyczna wersja bibliotek libwnck.
 %{__aclocal}
 %{__autoconf}
 %{__automake}
-LDFLAGS="%{rpmldflags} -Wl,--as-needed"
 %configure \
 	%{?with_apidocs:--enable-gtk-doc} \
 	--with-html-dir=%{_gtkdocdir}
