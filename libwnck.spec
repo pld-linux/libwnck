@@ -5,17 +5,17 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl):	Interfejs General Window Manager dla narzêdzi GNOME
 Name:		libwnck
-Version:	2.15.90
+Version:	2.15.91
 Release:	1
 License:	LGPL
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.15/%{name}-%{version}.tar.bz2
-# Source0-md5:	04b124fd057b73414a5f9b8904f1a68b
+# Source0-md5:	d1dbe01de445b88359332061aa4cff0e
 Patch0:		%{name}-compiz.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+2-devel >= 2:2.10.1
-%{?with_apidocs:BuildRequires:	gtk-doc >= 1.6}
+%{?with_apidocs:BuildRequires:	gtk-doc >= 1.7}
 BuildRequires:	gtk-doc-automake
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libtool
@@ -59,6 +59,18 @@ Static version of libwnck libraries.
 %description static -l pl
 Statyczna wersja bibliotek libwnck.
 
+%package apidocs
+Summary:	libwnck API documentation
+Summary(pl):	Dokumentacja API libwnck
+Group:		Documentation
+Requires:	gtk-doc-common
+
+%description apidocs
+libwnck API documentation.
+
+%description apidocs -l pl
+Dokumentacja API libwnck.
+
 %prep
 %setup -q
 # needs update!
@@ -100,8 +112,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.la
 %{_includedir}/%{name}-1.0
 %{_pkgconfigdir}/*.pc
-%{_gtkdocdir}/%{name}
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/*.a
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/%{name}
+%endif
