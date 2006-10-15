@@ -12,15 +12,17 @@ Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.16/%{name}-%{version}.tar.bz2
 # Source0-md5:	3b9d6d58ba8552bb354f87af23a058a8
 Patch0:		%{name}-compiz.patch
+Patch1:		%{name}-link.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gtk+2-devel >= 2:2.10.5
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.7}
 BuildRequires:	gtk-doc-automake
-BuildRequires:	intltool >= 0.35
+BuildRequires:	intltool >= 0.35.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	startup-notification-devel >= 0.8
+BuildRequires:	xorg-lib-libXres-devel
 Requires:	gtk+2 >= 2:2.10.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -40,6 +42,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.10.5
 Requires:	gtk-doc-common
 Requires:	startup-notification-devel >= 0.8
+Requires:	xorg-lib-libXres-devel
 
 %description devel
 Header, docs and development libraries for libwnck.
@@ -75,6 +78,7 @@ Dokumentacja API libwnck.
 %setup -q
 # needs update!
 #%patch0 -p0
+%patch1 -p1
 
 %build
 %{__intltoolize}
