@@ -3,7 +3,7 @@
 %bcond_without	apidocs		# disable gtk-doc
 #
 Summary:	General Window Manager interfacing for GNOME utilities
-Summary(pl):	Interfejs General Window Manager dla narzÍdzi GNOME
+Summary(pl.UTF-8):   Interfejs General Window Manager dla narzƒôdzi GNOME
 Name:		libwnck
 Version:	2.16.3
 Release:	1
@@ -30,13 +30,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 General Window Manager interfacing for GNOME utilities. This library
 is a part of the GNOME 2 platform.
 
-%description -l pl
-OgÛlny interfejs zarz±dcy okien dla narzÍdzi GNOME. Ta biblioteka jest
-czÍ∂ci± platformy GNOME 2.
+%description -l pl.UTF-8
+Og√≥lny interfejs zarzƒÖdcy okien dla narzƒôdzi GNOME. Ta biblioteka jest
+czƒô≈õciƒÖ platformy GNOME 2.
 
 %package devel
 Summary:	Header files and documentation for libwnck
-Summary(pl):	Pliki nag≥Ûwkowe i dokumentacja dla libwnck
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.10.9
@@ -47,31 +47,31 @@ Requires:	xorg-lib-libXres-devel
 %description devel
 Header, docs and development libraries for libwnck.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe i dokumentacja do libwnck.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe i dokumentacja do libwnck.
 
 %package static
 Summary:	Static libwnck libraries
-Summary(pl):	Statyczne biblioteki libwnck
+Summary(pl.UTF-8):   Statyczne biblioteki libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static version of libwnck libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczna wersja bibliotek libwnck.
 
 %package apidocs
 Summary:	libwnck API documentation
-Summary(pl):	Dokumentacja API libwnck
+Summary(pl.UTF-8):   Dokumentacja API libwnck
 Group:		Documentation
 Requires:	gtk-doc-common
 
 %description apidocs
 libwnck API documentation.
 
-%description apidocs -l pl
+%description apidocs -l pl.UTF-8
 Dokumentacja API libwnck.
 
 %prep
