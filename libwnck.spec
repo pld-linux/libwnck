@@ -3,7 +3,7 @@
 %bcond_without	apidocs		# disable gtk-doc
 #
 Summary:	General Window Manager interfacing for GNOME utilities
-Summary(pl.UTF-8):   Interfejs General Window Manager dla narzędzi GNOME
+Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
 Version:	2.16.3
 Release:	1
@@ -36,7 +36,7 @@ częścią platformy GNOME 2.
 
 %package devel
 Summary:	Header files and documentation for libwnck
-Summary(pl.UTF-8):   Pliki nagłówkowe i dokumentacja dla libwnck
+Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.10.9
@@ -52,7 +52,7 @@ Pliki nagłówkowe i dokumentacja do libwnck.
 
 %package static
 Summary:	Static libwnck libraries
-Summary(pl.UTF-8):   Statyczne biblioteki libwnck
+Summary(pl.UTF-8):	Statyczne biblioteki libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -64,7 +64,7 @@ Statyczna wersja bibliotek libwnck.
 
 %package apidocs
 Summary:	libwnck API documentation
-Summary(pl.UTF-8):   Dokumentacja API libwnck
+Summary(pl.UTF-8):	Dokumentacja API libwnck
 Group:		Documentation
 Requires:	gtk-doc-common
 
