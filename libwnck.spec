@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
 Version:	2.18.3
 Release:	1
-License:	LGPL
+License:	LGPL v2+
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.18/%{name}-%{version}.tar.bz2
 # Source0-md5:	1badcbb50e7bc59865f72ec270c15125
