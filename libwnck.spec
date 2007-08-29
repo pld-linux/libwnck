@@ -5,17 +5,17 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	2.18.3
+Version:	2.19.90
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.18/%{name}-%{version}.tar.bz2
-# Source0-md5:	1badcbb50e7bc59865f72ec270c15125
+Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.19/%{name}-%{version}.tar.bz2
+# Source0-md5:	07f05c75ef405fbb7a668ff7adad917e
 Patch0:		%{name}-compiz.patch
 Patch1:		%{name}-link.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gtk+2-devel >= 2:2.10.14
+BuildRequires:	gtk+2-devel >= 2:2.11.3
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.8}
 BuildRequires:	gtk-doc-automake
 BuildRequires:	intltool >= 0.35.5
