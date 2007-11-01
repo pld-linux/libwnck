@@ -8,7 +8,7 @@ Name:		libwnck
 Version:	2.20.1
 Release:	1
 License:	LGPL v2+
-Group:		Libraries
+Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.20/%{name}-%{version}.tar.bz2
 # Source0-md5:	8a5c390c7e2ea48e6260c0bc9ea2142b
 Patch0:		%{name}-compiz.patch
