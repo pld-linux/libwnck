@@ -5,15 +5,17 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	2.21.2
+Version:	2.21.2.1
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.21/%{name}-%{version}.tar.bz2
-# Source0-md5:	7ab4bf47a45e1ede30396a526b7d27e0
+# Source0-md5:	90e6dac2bcba0c6010da20d867fc00c5
 Patch0:		%{name}-compiz.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	gettext-devel
+BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gtk+2-devel >= 2:2.12.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.8}
 BuildRequires:	gtk-doc-automake
@@ -79,9 +81,6 @@ Dokumentacja API libwnck.
 # needs update!
 #%patch0 -p0
 
-sed -i -e 's#sr\@Latn#sr\@latin#' po/LINGUAS
-mv po/sr\@{Latn,latin}.po
-
 %build
 %{__glib_gettextize}
 %{__intltoolize}
@@ -100,6 +99,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/sr@{Latn,latin}
+
 %find_lang %{name}
 
 %clean
@@ -113,6 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog MAINTAINERS NEWS README
 %attr(755,root,root) %{_bindir}/wnckprop
 %attr(755,root,root) %{_libdir}/libwnck-1.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libwnck-1.so.22
 
 %files devel
 %defattr(644,root,root,755)
