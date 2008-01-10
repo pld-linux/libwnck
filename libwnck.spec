@@ -115,6 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog MAINTAINERS NEWS README
 %attr(755,root,root) %{_bindir}/wnckprop
 %attr(755,root,root) %{_libdir}/libwnck-1.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libwnck-1.so.22
 
 %files devel
 %defattr(644,root,root,755)
