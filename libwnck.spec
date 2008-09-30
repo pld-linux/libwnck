@@ -3,10 +3,10 @@
 %bcond_without	apidocs		# disable gtk-doc
 #
 Summary:	General Window Manager interfacing for GNOME utilities
-Summary(pl):	Interfejs General Window Manager dla narzÍdzi GNOME
+Summary(pl.UTF-8):	Interfejs General Window Manager dla narzƒôdzi GNOME
 Name:		libwnck
 Version:	2.14.3
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/gnome/sources/libwnck/2.14/%{name}-%{version}.tar.bz2
@@ -27,13 +27,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 General Window Manager interfacing for GNOME utilities. This library
 is a part of the GNOME 2 platform.
 
-%description -l pl
-OgÛlny interfejs zarz±dcy okien dla narzÍdzi GNOME. Ta biblioteka jest
-czÍ∂ci± platformy GNOME 2.
+%description -l pl.UTF-8
+Og√≥lny interfejs zarzƒÖdcy okien dla narzƒôdzi GNOME. Ta biblioteka jest
+czƒô≈õciƒÖ platformy GNOME 2.
 
 %package devel
 Summary:	Header files and documentation for libwnck
-Summary(pl):	Pliki nag≥Ûwkowe i dokumentacja dla libwnck
+Summary(pl.UTF-8):	Pliki nag≈Ç√≥wkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.8.18
@@ -43,19 +43,19 @@ Requires:	startup-notification-devel >= 0.8
 %description devel
 Header, docs and development libraries for libwnck.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe i dokumentacja do libwnck.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe i dokumentacja do libwnck.
 
 %package static
 Summary:	Static libwnck libraries
-Summary(pl):	Statyczne biblioteki libwnck
+Summary(pl.UTF-8):	Statyczne biblioteki libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static version of libwnck libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczna wersja bibliotek libwnck.
 
 %prep
