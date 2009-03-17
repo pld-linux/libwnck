@@ -5,19 +5,18 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	2.24.2
-Release:	2
+Version:	2.26.0
+Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.24/%{name}-%{version}.tar.bz2
-# Source0-md5:	1c939b1722579e5b7adc37068e77d72a
-Patch0:		%{name}-compiz.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.26/%{name}-%{version}.tar.bz2
+# Source0-md5:	73873bf666fc18dff04d66c48400b0c5
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.18.0
 BuildRequires:	gnome-common >= 2.20.0
-BuildRequires:	gtk+2-devel >= 2:2.14.0
+BuildRequires:	gtk+2-devel >= 2:2.16.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
 BuildRequires:	gtk-doc-automake
 BuildRequires:	intltool >= 0.40.0
@@ -25,7 +24,7 @@ BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXres-devel
-Requires:	gtk+2 >= 2:2.14.0
+Requires:	gtk+2 >= 2:2.16.0
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -43,7 +42,7 @@ Summary:	Header files and documentation for libwnck
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.14.0
+Requires:	gtk+2-devel >= 2:2.16.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libXres-devel
 
@@ -79,10 +78,9 @@ Dokumentacja API libwnck.
 
 %prep
 %setup -q
-# needs update!
-#%patch0 -p0
 
 %build
+%{__gtkdocize}
 %{__glib_gettextize}
 %{__intltoolize}
 %{__libtoolize}
