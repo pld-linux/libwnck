@@ -5,12 +5,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	2.26.2
+Version:	2.28.0
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.26/%{name}-%{version}.tar.bz2
-# Source0-md5:	90d89a7bcf3311877fa4b427719c7483
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.28/%{name}-%{version}.tar.bz2
+# Source0-md5:	a9311661aa954e7c918439b6dd578792
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
@@ -112,6 +112,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog MAINTAINERS NEWS README
+%attr(755,root,root) %{_bindir}/wnck-urgency-monitor
 %attr(755,root,root) %{_bindir}/wnckprop
 %attr(755,root,root) %{_libdir}/libwnck-1.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libwnck-1.so.22
