@@ -13,6 +13,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.28/%{name}-%{version}.
 # Source0-md5:	a9311661aa954e7c918439b6dd578792
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.18.0
 BuildRequires:	gnome-common >= 2.20.0
