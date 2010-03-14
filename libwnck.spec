@@ -5,19 +5,20 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	2.29.91
+Version:	2.29.92
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.29/%{name}-%{version}.tar.bz2
-# Source0-md5:	282f32b8ad3bb8c42c05dd38fbb25c13
-BuildRequires:	autoconf
+# Source0-md5:	414c377da1e38be06848875937cb2218
+BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.18.0
 BuildRequires:	gnome-common >= 2.20.0
-BuildRequires:	gtk+2-devel >= 2:2.16.0
+BuildRequires:	gobject-introspection-devel >= 0.6.7
+BuildRequires:	gtk+2-devel >= 2:2.19.7
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
 BuildRequires:	gtk-doc-automake
 BuildRequires:	intltool >= 0.40.0
@@ -26,7 +27,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXres-devel
-Requires:	gtk+2 >= 2:2.16.0
+Requires:	gtk+2 >= 2:2.19.7
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -44,7 +45,7 @@ Summary:	Header files and documentation for libwnck
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.16.0
+Requires:	gtk+2-devel >= 2:2.19.7
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libXres-devel
 
@@ -120,6 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/wnckprop
 %attr(755,root,root) %{_libdir}/libwnck-1.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libwnck-1.so.22
+%{_libdir}/girepository-1.0/Wnck-1.0.typelib
 
 %files devel
 %defattr(644,root,root,755)
@@ -127,6 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libwnck-1.la
 %{_includedir}/libwnck-1.0
 %{_pkgconfigdir}/libwnck-1.0.pc
+%{_datadir}/gir-1.0/Wnck-1.0.gir
 
 %files static
 %defattr(644,root,root,755)
