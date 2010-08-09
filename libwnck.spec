@@ -5,19 +5,19 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	2.30.2
+Version:	2.30.3
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.30/%{name}-%{version}.tar.bz2
-# Source0-md5:	f58a82c97cc1dd95d9c56bbef3649a92
+# Source0-md5:	743276e946b2512ef86246f8e9def6a6
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.18.0
 BuildRequires:	gnome-common >= 2.20.0
-BuildRequires:	gobject-introspection-devel >= 0.6.7
+BuildRequires:	gobject-introspection-devel >= 0.6.14
 BuildRequires:	gtk+2-devel >= 2:2.20.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
 BuildRequires:	gtk-doc-automake
