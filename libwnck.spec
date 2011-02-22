@@ -5,12 +5,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	2.91.6
-Release:	2
+Version:	2.91.90
+Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.91/%{name}-%{version}.tar.bz2
-# Source0-md5:	f50e90f795626fee7fb07f00e9b76795
+# Source0-md5:	6b438f7341348bc89537a897694019f8
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	docbook-dtd412-xml
@@ -46,7 +46,7 @@ Summary:	Header files and documentation for libwnck
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	gtk+3-devel >= 2.91.5
+Requires:	gtk+3-devel >= 3.0.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libXres-devel
 
@@ -82,9 +82,6 @@ Dokumentacja API libwnck.
 
 %prep
 %setup -q
-
-%{__sed} -i -e 's/^en@shaw//' po/LINGUAS
-rm -f po/en@shaw.po
 
 %build
 %{__gtkdocize}
