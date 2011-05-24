@@ -10,7 +10,7 @@ Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	05fd6d09dbe097805846e63cca3cbdc6
+# Source0-md5:	e4ea87320dd0600a81c50186e3804aae
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	docbook-dtd412-xml
