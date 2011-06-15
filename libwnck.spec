@@ -6,7 +6,7 @@ Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
 Version:	2.30.6
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.30/%{name}-%{version}.tar.bz2
@@ -28,6 +28,7 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXres-devel
 Requires:	gtk+2 >= 2:2.20.0
+Provides:	libwnck2
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -48,6 +49,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.20.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libXres-devel
+Provides:	libwnck2-devel
 
 %description devel
 Header, docs and development libraries for libwnck.
@@ -60,6 +62,7 @@ Summary:	Static libwnck libraries
 Summary(pl.UTF-8):	Statyczne biblioteki libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
+Provides:	libwnck2-static
 
 %description static
 Static version of libwnck libraries.
@@ -72,6 +75,7 @@ Summary:	libwnck API documentation
 Summary(pl.UTF-8):	Dokumentacja API libwnck
 Group:		Documentation
 Requires:	gtk-doc-common
+Provides:	libwnck2-apidocs
 
 %description apidocs
 libwnck API documentation.
