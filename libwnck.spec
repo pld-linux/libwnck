@@ -6,7 +6,7 @@ Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
 Version:	2.30.6
-Release:	5
+Release:	6
 Epoch:		1
 License:	LGPL v2+
 Group:		X11/Libraries
@@ -41,6 +41,15 @@ is a part of the GNOME 2 platform.
 %description -l pl.UTF-8
 Ogólny interfejs zarządcy okien dla narzędzi GNOME. Ta biblioteka jest
 częścią platformy GNOME 2.
+
+%package tools
+Summary:	Small tools to manage windows
+Group:		X11/Window Managers/Tools
+Requires:	%{name} = %{epoch}%{version}-%{release}
+Provides:	libwnck2-tools
+
+%description tools
+Small tools to manage windows.
 
 %package devel
 Summary:	Header files and documentation for libwnck
@@ -128,10 +137,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libwnck-1.so.22
 %{_libdir}/girepository-1.0/Wnck-1.0.typelib
 
+%files tools
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/wnck-urgency-monitor
+%attr(755,root,root) %{_bindir}/wnckprop
+
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libwnck-1.so
 %{_includedir}/libwnck-1.0
+%{_pkgconfigdir}/libwnck-1.0.pc
 %{_datadir}/gir-1.0/Wnck-1.0.gir
 
 %files static
