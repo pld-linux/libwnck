@@ -6,7 +6,7 @@ Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
 Version:	2.30.6
-Release:	6
+Release:	7
 Epoch:		1
 License:	LGPL v2+
 Group:		X11/Libraries
@@ -45,7 +45,7 @@ częścią platformy GNOME 2.
 %package tools
 Summary:	Small tools to manage windows
 Group:		X11/Window Managers/Tools
-Requires:	%{name} = %{epoch}%{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Provides:	libwnck2-tools
 
 %description tools
