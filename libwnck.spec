@@ -1,16 +1,17 @@
 #
 # Conditional build:
 %bcond_without	apidocs		# disable gtk-doc
+%bcond_without	static_libs	# don't build static library
 #
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.0.2
+Version:	3.1.90
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	e4ea87320dd0600a81c50186e3804aae
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.1/%{name}-%{version}.tar.xz
+# Source0-md5:	b927c3b2df944954e58e766fcc092259
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	docbook-dtd412-xml
@@ -26,8 +27,10 @@ BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	startup-notification-devel >= 0.8
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXres-devel
+BuildRequires:	xz
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -100,8 +103,9 @@ Dokumentacja API libwnck.
 %{__autoheader}
 %{__automake}
 %configure \
-	%{?with_apidocs:--enable-gtk-doc} \
+	%{__enable_disable apidocs gtk-doc} \
 	--with-html-dir=%{_gtkdocdir} \
+	%{__enable_disable static_libs static} \
 	--disable-silent-rules
 
 %{__make}
@@ -141,9 +145,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/libwnck-3.0.pc
 %{_datadir}/gir-1.0/Wnck-3.0.gir
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libwnck-3.a
+%endif
 
 %if %{with apidocs}
 %files apidocs
