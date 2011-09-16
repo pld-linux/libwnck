@@ -21,7 +21,7 @@ BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gobject-introspection-devel >= 0.6.14
 BuildRequires:	gtk+3-devel >= 3.0.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
-BuildRequires:	gtk-doc-automake
+BuildRequires:	gtk-doc-automake >= 1.9
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
@@ -42,19 +42,25 @@ częścią platformy GNOME 2.
 
 %package tools
 Summary:	Small tools to manage windows
+Summary(pl.UTF-8):	Małe narzędzia do zarządzania oknami
 Group:		X11/Window Managers/Tools
 Requires:	%{name} = %{version}-%{release}
 
 %description tools
 Small tools to manage windows.
 
+%description tools -l pl.UTF-8
+Małe narzędzia do zarządzania oknami.
+
 %package devel
 Summary:	Header files and documentation for libwnck
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	glib2-devel >= 1:2.28.0
 Requires:	gtk+3-devel >= 3.0.0
 Requires:	startup-notification-devel >= 0.8
+Requires:	xorg-lib-libX11-devel
 Requires:	xorg-lib-libXres-devel
 
 %description devel
