@@ -6,8 +6,7 @@ Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
 Version:	2.30.6
-Release:	7
-Epoch:		1
+Release:	8
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/2.30/%{name}-%{version}.tar.bz2
@@ -45,7 +44,7 @@ częścią platformy GNOME 2.
 %package tools
 Summary:	Small tools to manage windows
 Group:		X11/Window Managers/Tools
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Provides:	libwnck2-tools
 
 %description tools
@@ -55,7 +54,7 @@ Small tools to manage windows.
 Summary:	Header files and documentation for libwnck
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.20.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libXres-devel
@@ -71,7 +70,7 @@ Pliki nagłówkowe i dokumentacja do libwnck.
 Summary:	Static libwnck libraries
 Summary(pl.UTF-8):	Statyczne biblioteki libwnck
 Group:		X11/Development/Libraries
-Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
 Provides:	libwnck2-static
 
 %description static
