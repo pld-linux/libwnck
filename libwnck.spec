@@ -6,21 +6,21 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.4.2
+Version:	3.4.3
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.4/%{name}-%{version}.tar.xz
-# Source0-md5:	aa2780dffe2dcf98a736a5fddcb50dae
+# Source0-md5:	a5cead3768ffcf672c5757b49c95e27b
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gdk-pixbuf2-devel
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.28.0
+BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gobject-introspection-devel >= 0.6.14
-BuildRequires:	gtk+3-devel >= 3.0.0
+BuildRequires:	gtk+3-devel >= 3.4.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
 BuildRequires:	gtk-doc-automake >= 1.9
 BuildRequires:	intltool >= 0.40.6
@@ -60,8 +60,8 @@ Summary:	Header files and documentation for libwnck
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.28.0
-Requires:	gtk+3-devel >= 3.0.0
+Requires:	glib2-devel >= 1:2.32.0
+Requires:	gtk+3-devel >= 3.4.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libX11-devel
 Requires:	xorg-lib-libXres-devel
