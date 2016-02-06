@@ -6,12 +6,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.14.0
-Release:	3
+Version:	3.14.1
+Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.14/%{name}-%{version}.tar.xz
-# Source0-md5:	4538672e0d775fadedf10abeb8020047
+# Source0-md5:	d96c0b74c4dc5fdae758964098603c90
 URL:		https://developer.gnome.org/libwnck/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
@@ -21,7 +21,7 @@ BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gobject-introspection-devel >= 0.6.14
-BuildRequires:	gtk+3-devel >= 3.4.0
+BuildRequires:	gtk+3-devel >= 3.10.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
 BuildRequires:	gtk-doc-automake >= 1.9
 BuildRequires:	intltool >= 0.40.6
@@ -62,7 +62,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.32.0
-Requires:	gtk+3-devel >= 3.4.0
+Requires:	gtk+3-devel >= 3.10.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libX11-devel
 Requires:	xorg-lib-libXres-devel
