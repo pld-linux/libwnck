@@ -32,6 +32,9 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXres-devel
 BuildRequires:	xz
+Requires:	glib2 >= 1:2.32.0
+Requires:	gtk+3 >= 3.10.0
+Requires:	startup-notification >= 0.8
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
