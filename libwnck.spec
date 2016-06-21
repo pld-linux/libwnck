@@ -6,12 +6,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.14.1
+Version:	3.20.0
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.14/%{name}-%{version}.tar.xz
-# Source0-md5:	d96c0b74c4dc5fdae758964098603c90
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.20/%{name}-%{version}.tar.xz
+# Source0-md5:	6c32c3f22880582eda255aa2c217b5f6
 URL:		https://developer.gnome.org/libwnck/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
