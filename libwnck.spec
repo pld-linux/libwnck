@@ -6,22 +6,24 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.20.0
+Version:	3.20.1
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.20/%{name}-%{version}.tar.xz
-# Source0-md5:	6c32c3f22880582eda255aa2c217b5f6
+# Source0-md5:	487938d65d4bfae1f2501052b1bd7492
 URL:		https://developer.gnome.org/libwnck/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
+# cairo-xlib-xrender
+BuildRequires:	cairo-devel
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gdk-pixbuf2-devel
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gobject-introspection-devel >= 0.6.14
-BuildRequires:	gtk+3-devel >= 3.10.0
+BuildRequires:	gtk+3-devel >= 3.16
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
 BuildRequires:	gtk-doc-automake >= 1.9
 BuildRequires:	intltool >= 0.40.6
@@ -33,7 +35,7 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXres-devel
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.32.0
-Requires:	gtk+3 >= 3.10.0
+Requires:	gtk+3 >= 3.16
 Requires:	startup-notification >= 0.8
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
@@ -64,8 +66,9 @@ Summary:	Header files and documentation for libwnck
 Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	cairo-devel
 Requires:	glib2-devel >= 1:2.32.0
-Requires:	gtk+3-devel >= 3.10.0
+Requires:	gtk+3-devel >= 3.16
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libX11-devel
 Requires:	xorg-lib-libXres-devel
