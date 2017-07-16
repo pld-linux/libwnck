@@ -6,12 +6,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.20.1
+Version:	3.24.0
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.20/%{name}-%{version}.tar.xz
-# Source0-md5:	487938d65d4bfae1f2501052b1bd7492
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.24/%{name}-%{version}.tar.xz
+# Source0-md5:	3567fde4d1934b0f48b9966153d14b6d
 URL:		https://developer.gnome.org/libwnck/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
@@ -19,14 +19,12 @@ BuildRequires:	automake >= 1:1.11
 BuildRequires:	cairo-devel
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gdk-pixbuf2-devel
-BuildRequires:	gettext-tools
+BuildRequires:	gettext-tools >= 0.19.4
 BuildRequires:	glib2-devel >= 1:2.32.0
-BuildRequires:	gnome-common >= 2.20.0
 BuildRequires:	gobject-introspection-devel >= 0.6.14
-BuildRequires:	gtk+3-devel >= 3.16
+BuildRequires:	gtk+3-devel >= 3.22.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
 BuildRequires:	gtk-doc-automake >= 1.9
-BuildRequires:	intltool >= 0.40.6
 BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	pkgconfig
 BuildRequires:	startup-notification-devel >= 0.8
@@ -35,7 +33,7 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXres-devel
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.32.0
-Requires:	gtk+3 >= 3.16
+Requires:	gtk+3 >= 3.22.0
 Requires:	startup-notification >= 0.8
 # sr@Latn vs. sr@latin
 Conflicts:	glibc-misc < 6:2.7
@@ -68,7 +66,7 @@ Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	cairo-devel
 Requires:	glib2-devel >= 1:2.32.0
-Requires:	gtk+3-devel >= 3.16
+Requires:	gtk+3-devel >= 3.22.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libX11-devel
 Requires:	xorg-lib-libXres-devel
@@ -111,8 +109,6 @@ Dokumentacja API libwnck.
 
 %build
 %{__gtkdocize}
-%{__glib_gettextize}
-%{__intltoolize}
 %{__libtoolize}
 %{__aclocal} -I m4
 %{__autoconf}
