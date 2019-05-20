@@ -6,12 +6,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.30.0
+Version:	3.32.0
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.30/%{name}-%{version}.tar.xz
-# Source0-md5:	60109c2ab0b07da1099ee57980054de1
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.32/%{name}-%{version}.tar.xz
+# Source0-md5:	89dbe5a1843fd3745b8b64b34a2ef55d
 URL:		https://developer.gnome.org/libwnck/
 BuildRequires:	autoconf >= 2.62
 BuildRequires:	automake >= 1:1.11
@@ -27,6 +27,7 @@ BuildRequires:	gtk+3-devel >= 3.22.0
 BuildRequires:	gtk-doc-automake >= 1.9
 BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	pkgconfig
+BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
@@ -35,8 +36,6 @@ BuildRequires:	xz
 Requires:	glib2 >= 1:2.32.0
 Requires:	gtk+3 >= 3.22.0
 Requires:	startup-notification >= 0.8
-# sr@Latn vs. sr@latin
-Conflicts:	glibc-misc < 6:2.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -107,7 +106,10 @@ Dokumentacja API libwnck.
 %prep
 %setup -q
 
+%{__sed} -i -e '/^po\/Makefile.in/d' configure.ac
+
 %build
+%{__gettextize}
 %{__gtkdocize}
 %{__libtoolize}
 %{__aclocal} -I m4
@@ -140,7 +142,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}-3.0.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog MAINTAINERS NEWS README
+%doc AUTHORS ChangeLog MAINTAINERS NEWS README rationales.txt
 %attr(755,root,root) %{_libdir}/libwnck-3.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libwnck-3.so.0
 %{_libdir}/girepository-1.0/Wnck-3.0.typelib
