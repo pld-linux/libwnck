@@ -6,34 +6,33 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	3.32.0
+Version:	3.36.0
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.32/%{name}-%{version}.tar.xz
-# Source0-md5:	89dbe5a1843fd3745b8b64b34a2ef55d
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libwnck/3.36/%{name}-%{version}.tar.xz
+# Source0-md5:	00bb40dc6fab76af0da33e88a34b6378
 URL:		https://developer.gnome.org/libwnck/
-BuildRequires:	autoconf >= 2.62
-BuildRequires:	automake >= 1:1.11
 # cairo-xlib-xrender
 BuildRequires:	cairo-devel
 BuildRequires:	docbook-dtd412-xml
 BuildRequires:	gdk-pixbuf2-devel
 BuildRequires:	gettext-tools >= 0.19.4
-BuildRequires:	glib2-devel >= 1:2.32.0
+BuildRequires:	glib2-devel >= 1:2.34
 BuildRequires:	gobject-introspection-devel >= 0.6.14
 BuildRequires:	gtk+3-devel >= 3.22.0
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.9}
-BuildRequires:	gtk-doc-automake >= 1.9
-BuildRequires:	libtool >= 2:2.2.6
+BuildRequires:	meson >= 0.50.0
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXres-devel
 BuildRequires:	xz
-Requires:	glib2 >= 1:2.32.0
+Requires:	glib2 >= 1:2.34
 Requires:	gtk+3 >= 3.22.0
 Requires:	startup-notification >= 0.8
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -64,7 +63,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja dla libwnck
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	cairo-devel
-Requires:	glib2-devel >= 1:2.32.0
+Requires:	glib2-devel >= 1:2.34
 Requires:	gtk+3-devel >= 3.22.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libX11-devel
@@ -93,7 +92,7 @@ Summary:	libwnck API documentation
 Summary(pl.UTF-8):	Dokumentacja API libwnck
 Group:		Documentation
 Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "5"
+%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
 
@@ -106,31 +105,20 @@ Dokumentacja API libwnck.
 %prep
 %setup -q
 
-%{__sed} -i -e '/^po\/Makefile.in/d' configure.ac
+%if %{with static_libs}
+%{__sed} -i -e '/^libwnck_lib/ s/shared_library/library/' libwnck/meson.build
+%endif
 
 %build
-%{__gettextize}
-%{__gtkdocize}
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	%{__enable_disable apidocs gtk-doc} \
-	--with-html-dir=%{_gtkdocdir} \
-	%{__enable_disable static_libs static} \
-	--disable-silent-rules
+%meson build \
+	%{?with_apidocs:-Dgtk_doc=true}
 
-%{__make}
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libwnck-3.la
+%ninja_install -C build
 
 %find_lang %{name}-3.0
 
