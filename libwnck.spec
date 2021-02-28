@@ -92,9 +92,7 @@ Summary:	libwnck API documentation
 Summary(pl.UTF-8):	Dokumentacja API libwnck
 Group:		Documentation
 Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 libwnck API documentation.
