@@ -6,12 +6,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	40.1
+Version:	43.0
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
-Source0:	https://download.gnome.org/sources/libwnck/40/%{name}-%{version}.tar.xz
-# Source0-md5:	14e61fce883f0bad83eaae662dd402f4
+Source0:	https://download.gnome.org/sources/libwnck/43/%{name}-%{version}.tar.xz
+# Source0-md5:	cd21ef743a1e9286554401c5b28d5ec6
 URL:		https://developer.gnome.org/libwnck/
 # cairo-xlib-xrender
 BuildRequires:	cairo-devel
