@@ -12,7 +12,7 @@ License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	https://download.gnome.org/sources/libwnck/43/%{name}-%{version}.tar.xz
 # Source0-md5:	cd21ef743a1e9286554401c5b28d5ec6
-URL:		https://developer.gnome.org/libwnck/
+URL:		https://gitlab.gnome.org/GNOME/libwnck
 # cairo-xlib-xrender
 BuildRequires:	cairo-devel
 BuildRequires:	docbook-dtd412-xml
