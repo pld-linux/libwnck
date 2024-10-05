@@ -1,17 +1,17 @@
 #
 # Conditional build:
-%bcond_without	apidocs		# disable gtk-doc
-%bcond_without	static_libs	# don't build static library
+%bcond_without	apidocs		# gtk-doc API documentation
+%bcond_without	static_libs	# static library
 
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	43.0
+Version:	43.1
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	https://download.gnome.org/sources/libwnck/43/%{name}-%{version}.tar.xz
-# Source0-md5:	cd21ef743a1e9286554401c5b28d5ec6
+# Source0-md5:	69100f712e601469d0effb52d6fa1564
 URL:		https://gitlab.gnome.org/GNOME/libwnck
 # cairo-xlib-xrender
 BuildRequires:	cairo-devel
