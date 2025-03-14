@@ -6,12 +6,12 @@
 Summary:	General Window Manager interfacing for GNOME utilities
 Summary(pl.UTF-8):	Interfejs General Window Manager dla narzędzi GNOME
 Name:		libwnck
-Version:	43.1
+Version:	43.2
 Release:	1
 License:	LGPL v2+
 Group:		X11/Libraries
 Source0:	https://download.gnome.org/sources/libwnck/43/%{name}-%{version}.tar.xz
-# Source0-md5:	69100f712e601469d0effb52d6fa1564
+# Source0-md5:	b8c29ef589d3427c8a699c1542a2d25e
 URL:		https://gitlab.gnome.org/GNOME/libwnck
 # cairo-xlib-xrender
 BuildRequires:	cairo-devel
@@ -26,16 +26,18 @@ BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
-BuildRequires:	xorg-lib-libXres-devel
+BuildRequires:	xorg-lib-libXi-devel
+BuildRequires:	xorg-lib-libXres-devel >= 1.2
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.44
 Requires:	gtk+3 >= 3.22.0
 Requires:	startup-notification >= 0.8
+Requires:	xorg-lib-libXres >= 1.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -68,7 +70,7 @@ Requires:	glib2-devel >= 1:2.44
 Requires:	gtk+3-devel >= 3.22.0
 Requires:	startup-notification-devel >= 0.8
 Requires:	xorg-lib-libX11-devel
-Requires:	xorg-lib-libXres-devel
+Requires:	xorg-lib-libXres-devel >= 1.2
 
 %description devel
 Header, docs and development libraries for libwnck.
@@ -109,15 +111,16 @@ Dokumentacja API libwnck.
 %endif
 
 %build
-%meson build \
-	%{?with_apidocs:-Dgtk_doc=true}
+%meson \
+	%{?with_apidocs:-Dgtk_doc=true} \
+	-Dstartup_notification=enabled
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %find_lang %{name}-3.0
 
